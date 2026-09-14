@@ -1,0 +1,101 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Realizar Pedido</h2>
+
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <form (ngSubmit)="salvar()">
+        <!-- Dados do Cliente -->
+        <h5 class="border-bottom pb-2 mb-3">Dados do Cliente</h5>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Nome *</label>
+            <input type="text" class="form-control" name="nomeCliente" [(ngModel)]="pedidoAtual.nomeCliente" required>
+          </div>
+          <div class="col-md-5 mb-3">
+            <label class="form-label">Endereço *</label>
+            <input type="text" class="form-control" name="enderecoCliente" [(ngModel)]="pedidoAtual.enderecoCliente" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Telefone *</label>
+            <input type="text" class="form-control" name="telefoneCliente" [(ngModel)]="pedidoAtual.telefoneCliente" required>
+          </div>
+        </div>
+
+        <!-- Opções do Pedido -->
+        <h5 class="border-bottom pb-2 mt-3 mb-3">Itens do Pedido</h5>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Hambúrgueres:</label>
+          <div class="row">
+            <div class="col-md-3" *ngFor="let h of hamburgueresDisponiveis">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.hamburgueres, h.id)" (change)="toggleItem(pedidoAtual.hamburgueres, h, $event)">
+                <label class="form-check-label">{{ h.descricao }} (R$ {{ h.valor }})</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Bebidas:</label>
+          <div class="row">
+            <div class="col-md-3" *ngFor="let b of bebidasDisponiveis">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.bebidas, b.id)" (change)="toggleItem(pedidoAtual.bebidas, b, $event)">
+                <label class="form-check-label">{{ b.descricao }} (R$ {{ b.precoUnitario }})</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Adicionais Extras:</label>
+          <div class="row">
+            <div class="col-md-3" *ngFor="let a of adicionaisDisponiveis">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.adicionais, a.id)" (change)="toggleItem(pedidoAtual.adicionais, a, $event)">
+                <label class="form-check-label">{{ a.descricao }} (R$ {{ a.precoUnitario }})</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 mb-3">
+            <label class="form-label">Observações</label>
+            <input type="text" class="form-control" name="observacoes" [(ngModel)]="pedidoAtual.observacoes" placeholder="Ex: Sem maionese, carne bem passada...">
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success mt-2" [disabled]="!pedidoAtual.nomeCliente || !pedidoAtual.enderecoCliente || !pedidoAtual.telefoneCliente">Finalizar Pedido</button>
+      </form>
+    </div>
+  </div>
+
+  <h4 class="mb-3">Histórico de Pedidos</h4>
+  <table class="table table-striped table-hover shadow-sm align-middle">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Cliente</th>
+      <th>Itens</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let p of pedidos">
+      <td>{{ p.id }}</td>
+      <td>
+        <strong>{{ p.nomeCliente }}</strong><br>
+        <small class="text-muted">{{ p.telefoneCliente }}</small>
+      </td>
+      <td>
+        <span class="badge text-bg-primary me-1" *ngFor="let h of p.hamburgueres">{{ h.descricao }}</span>
+        <span class="badge text-bg-info me-1" *ngFor="let b of p.bebidas">{{ b.descricao }}</span>
+        <span class="badge text-bg-secondary me-1" *ngFor="let a of p.adicionais">+ {{ a.descricao }}</span>
+      </td>
+      <td class="fw-bold text-success">R$ {{ p.valorTotal }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

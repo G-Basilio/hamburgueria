@@ -2,15 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { BebidaComponent } from './bebida';
+import { HamburguerComponent } from './hamburguer';
 
-describe('Bebida', () => {
-  let component: BebidaComponent;
-  let fixture: ComponentFixture<BebidaComponent>;
+describe('HamburguerComponent', () => {
+  let component: HamburguerComponent;
+  let fixture: ComponentFixture<HamburguerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [BebidaComponent],
+      declarations: [HamburguerComponent],
       imports: [FormsModule],
       providers: [
         provideHttpClient(),
@@ -18,7 +18,7 @@ describe('Bebida', () => {
       ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BebidaComponent);
+    fixture = TestBed.createComponent(HamburguerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

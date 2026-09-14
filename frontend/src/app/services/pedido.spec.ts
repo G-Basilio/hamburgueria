@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { IngredienteService } from './ingrediente';
+import { PedidoService } from './pedido';
 
-describe('IngredienteService', () => {
-  let service: IngredienteService;
+describe('PedidoService', () => {
+  let service: PedidoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -13,7 +13,7 @@ describe('IngredienteService', () => {
         provideHttpClientTesting()
       ]
     });
-    service = TestBed.inject(IngredienteService);
+    service = TestBed.inject(PedidoService);
   });
 
   it('should be created', () => {

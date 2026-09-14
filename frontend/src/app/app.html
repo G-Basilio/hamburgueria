@@ -1,7 +1,27 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow">
   <div class="container">
-    <a class="navbar-brand" href="#">🍔 Lanchonete</a>
+    <a class="navbar-brand" routerLink="/">🍔 Lanchonete</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/bebidas" routerLinkActive="active">Bebidas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/ingredientes" routerLinkActive="active">Ingredientes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/hamburgueres" routerLinkActive="active">Hambúrgueres</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/pedidos" routerLinkActive="active">Pedidos</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 
-<app-bebida></app-bebida>
+<!-- Aqui é onde as telas vão ser carregadas dinamicamente -->
+<router-outlet></router-outlet>
