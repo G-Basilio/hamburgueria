@@ -1,0 +1,63 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Gerenciar Bebidas</h2>
+
+  <!-- Formulário de Cadastro/Edição -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <form (ngSubmit)="salvar()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Descrição</label>
+            <input type="text" class="form-control" name="descricao" [(ngModel)]="bebidaAtual.descricao" required>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Preço Unitário (R$)</label>
+            <input type="number" step="0.01" class="form-control" name="precoUnitario" [(ngModel)]="bebidaAtual.precoUnitario" required>
+          </div>
+          <div class="col-md-3 mb-3 d-flex align-items-end">
+            <div class="form-check mb-2">
+              <input type="checkbox" class="form-check-input" name="contemAcucar" id="contemAcucar" [(ngModel)]="bebidaAtual.contemAcucar">
+              <label class="form-check-label" for="contemAcucar">Contém Açúcar?</label>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!bebidaAtual.descricao || bebidaAtual.precoUnitario < 0">Salvar</button>
+        <button type="button" class="btn btn-secondary ms-2" (click)="bebidaAtual = novaBebida()">Cancelar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Barra de Pesquisa -->
+  <div class="input-group mb-3 shadow-sm">
+    <input type="text" class="form-control" placeholder="Pesquisar por descrição..." name="termoBusca" [(ngModel)]="termoBusca">
+    <button class="btn btn-outline-primary" type="button" (click)="listar()">Pesquisar</button>
+  </div>
+
+  <!-- Tabela de Listagem -->
+  <table class="table table-striped table-hover shadow-sm align-middle">
+    <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Descrição</th>
+      <th>Preço</th>
+      <th>Açúcar?</th>
+      <th class="text-end">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let b of bebidas">
+      <td>{{ b.id }}</td>
+      <td>{{ b.descricao }}</td>
+      <td>R$ {{ b.precoUnitario }}</td>
+      <td>
+          <span class="badge" [ngClass]="b.contemAcucar ? 'text-bg-warning' : 'text-bg-success'">
+            {{ b.contemAcucar ? 'Sim' : 'Não' }}
+          </span>
+      </td>
+      <td class="text-end">
+        <button class="btn btn-sm btn-warning" (click)="editar(b)">Editar</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

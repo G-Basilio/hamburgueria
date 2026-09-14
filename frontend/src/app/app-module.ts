@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
+import { BebidaComponent } from './components/bebida/bebida';
 
 @NgModule({
   declarations: [
-    App
+    App,
+    BebidaComponent
   ],
   imports: [
     BrowserModule,
