@@ -13,7 +13,7 @@ export class HamburguerService {
 
   listar(descricao?: string): Observable<Hamburguer[]> {
     let params = new HttpParams();
-    if (descricao) {
+    if (descricao && descricao.trim() !== '') {
       params = params.set('descricao', descricao);
     }
     return this.http.get<Hamburguer[]>(this.apiUrl, { params });

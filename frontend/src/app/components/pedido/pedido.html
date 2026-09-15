@@ -1,101 +1,159 @@
 <div class="container mt-4">
-  <h2 class="mb-4">Realizar Pedido</h2>
-
-  <div class="card mb-4 shadow-sm">
-    <div class="card-body">
-      <form (ngSubmit)="salvar()">
-        <!-- Dados do Cliente -->
-        <h5 class="border-bottom pb-2 mb-3">Dados do Cliente</h5>
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <label class="form-label">Nome *</label>
-            <input type="text" class="form-control" name="nomeCliente" [(ngModel)]="pedidoAtual.nomeCliente" required>
-          </div>
-          <div class="col-md-5 mb-3">
-            <label class="form-label">Endereço *</label>
-            <input type="text" class="form-control" name="enderecoCliente" [(ngModel)]="pedidoAtual.enderecoCliente" required>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label class="form-label">Telefone *</label>
-            <input type="text" class="form-control" name="telefoneCliente" [(ngModel)]="pedidoAtual.telefoneCliente" required>
-          </div>
-        </div>
-
-        <!-- Opções do Pedido -->
-        <h5 class="border-bottom pb-2 mt-3 mb-3">Itens do Pedido</h5>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold">Hambúrgueres:</label>
-          <div class="row">
-            <div class="col-md-3" *ngFor="let h of hamburgueresDisponiveis">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.hamburgueres, h.id)" (change)="toggleItem(pedidoAtual.hamburgueres, h, $event)">
-                <label class="form-check-label">{{ h.descricao }} (R$ {{ h.valor }})</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold">Bebidas:</label>
-          <div class="row">
-            <div class="col-md-3" *ngFor="let b of bebidasDisponiveis">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.bebidas, b.id)" (change)="toggleItem(pedidoAtual.bebidas, b, $event)">
-                <label class="form-check-label">{{ b.descricao }} (R$ {{ b.precoUnitario }})</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold">Adicionais Extras:</label>
-          <div class="row">
-            <div class="col-md-3" *ngFor="let a of adicionaisDisponiveis">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" [checked]="possuiItem(pedidoAtual.adicionais, a.id)" (change)="toggleItem(pedidoAtual.adicionais, a, $event)">
-                <label class="form-check-label">{{ a.descricao }} (R$ {{ a.precoUnitario }})</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-12 mb-3">
-            <label class="form-label">Observações</label>
-            <input type="text" class="form-control" name="observacoes" [(ngModel)]="pedidoAtual.observacoes" placeholder="Ex: Sem maionese, carne bem passada...">
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-success mt-2" [disabled]="!pedidoAtual.nomeCliente || !pedidoAtual.enderecoCliente || !pedidoAtual.telefoneCliente">Finalizar Pedido</button>
-      </form>
-    </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold text-secondary m-0"><i class="bi bi-cart-check me-2"></i>Gestão de Pedidos</h3>
   </div>
 
-  <h4 class="mb-3">Histórico de Pedidos</h4>
-  <table class="table table-striped table-hover shadow-sm align-middle">
-    <thead class="table-dark">
-    <tr>
-      <th>ID</th>
-      <th>Cliente</th>
-      <th>Itens</th>
-      <th>Total</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let p of pedidos">
-      <td>{{ p.id }}</td>
-      <td>
-        <strong>{{ p.nomeCliente }}</strong><br>
-        <small class="text-muted">{{ p.telefoneCliente }}</small>
-      </td>
-      <td>
-        <span class="badge text-bg-primary me-1" *ngFor="let h of p.hamburgueres">{{ h.descricao }}</span>
-        <span class="badge text-bg-info me-1" *ngFor="let b of p.bebidas">{{ b.descricao }}</span>
-        <span class="badge text-bg-secondary me-1" *ngFor="let a of p.adicionais">+ {{ a.descricao }}</span>
-      </td>
-      <td class="fw-bold text-success">R$ {{ p.valorTotal }}</td>
-    </tr>
-    </tbody>
-  </table>
+  <form (ngSubmit)="salvar()">
+    <div class="row">
+
+      <!-- Coluna 1: Dados do Cliente e Observações -->
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-secondary border-bottom pb-2 mb-4">
+              <i class="bi bi-person-lines-fill me-2"></i>Dados do Cliente
+            </h5>
+
+            <div class="mb-3">
+              <label class="form-label text-muted fw-semibold">Nome *</label>
+              <input type="text" class="form-control" name="nomeCliente" [(ngModel)]="pedidoAtual.nomeCliente" placeholder="Ex: João da Silva" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-muted fw-semibold">Endereço *</label>
+              <input type="text" class="form-control" name="enderecoCliente" [(ngModel)]="pedidoAtual.enderecoCliente" placeholder="Ex: Rua das Flores, 123" required>
+            </div>
+            <div class="mb-4">
+              <label class="form-label text-muted fw-semibold">Telefone *</label>
+              <input type="text" class="form-control" name="telefoneCliente" [(ngModel)]="pedidoAtual.telefoneCliente" placeholder="(00) 00000-0000" required>
+            </div>
+
+            <h5 class="fw-bold text-secondary border-bottom pb-2 mb-3 mt-4">
+              <i class="bi bi-chat-left-text me-2"></i>Observações
+            </h5>
+            <div class="mb-3">
+              <textarea class="form-control" name="observacoes" [(ngModel)]="pedidoAtual.observacoes" rows="3" placeholder="Ex: Sem maionese, carne bem passada..."></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Seleção de Itens -->
+      <div class="col-lg-8 mb-4">
+        <div class="card h-100">
+          <div class="card-body p-4">
+            <h5 class="fw-bold text-secondary border-bottom pb-2 mb-4">
+              <i class="bi bi-bag-plus me-2"></i>Montar Pedido
+            </h5>
+
+            <!-- Hambúrgueres -->
+            <div class="mb-4">
+              <label class="form-label text-muted fw-semibold mb-3">Hambúrgueres:</label>
+              <div class="row g-2">
+                <div class="col-md-4 col-sm-6" *ngFor="let h of hamburgueresDisponiveis">
+                  <div class="border rounded p-2 d-flex align-items-center" [ngClass]="possuiItem(pedidoAtual.hamburgueres, h.id) ? 'border-primary bg-primary bg-opacity-10' : 'bg-light border-light-subtle'">
+                    <div class="form-check form-switch mb-0 w-100 fs-6">
+                      <input class="form-check-input" type="checkbox" role="switch" [id]="'hamb_'+h.id" [checked]="possuiItem(pedidoAtual.hamburgueres, h.id)" (change)="toggleItem(pedidoAtual.hamburgueres, h, $event)">
+                      <label class="form-check-label d-block text-muted ms-1" [for]="'hamb_'+h.id" style="cursor: pointer;">
+                        {{ h.descricao }} <br>
+                        <span class="text-success fw-semibold small">R$ {{ h.valor | number:'1.2-2' }}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="hamburgueresDisponiveis.length === 0" class="text-muted small">Nenhum hambúrguer cadastrado.</div>
+              </div>
+            </div>
+
+            <!-- Bebidas -->
+            <div class="mb-4">
+              <label class="form-label text-muted fw-semibold mb-3">Bebidas:</label>
+              <div class="row g-2">
+                <div class="col-md-4 col-sm-6" *ngFor="let b of bebidasDisponiveis">
+                  <div class="border rounded p-2 d-flex align-items-center" [ngClass]="possuiItem(pedidoAtual.bebidas, b.id) ? 'border-primary bg-primary bg-opacity-10' : 'bg-light border-light-subtle'">
+                    <div class="form-check form-switch mb-0 w-100 fs-6">
+                      <input class="form-check-input" type="checkbox" role="switch" [id]="'beb_'+b.id" [checked]="possuiItem(pedidoAtual.bebidas, b.id)" (change)="toggleItem(pedidoAtual.bebidas, b, $event)">
+                      <label class="form-check-label d-block text-muted ms-1" [for]="'beb_'+b.id" style="cursor: pointer;">
+                        {{ b.descricao }} <br>
+                        <span class="text-success fw-semibold small">R$ {{ b.precoUnitario | number:'1.2-2' }}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="bebidasDisponiveis.length === 0" class="text-muted small">Nenhuma bebida cadastrada.</div>
+              </div>
+            </div>
+
+            <!-- Adicionais -->
+            <div class="mb-4">
+              <label class="form-label text-muted fw-semibold mb-3">Adicionais Extras:</label>
+              <div class="row g-2">
+                <div class="col-md-4 col-sm-6" *ngFor="let a of adicionaisDisponiveis">
+                  <div class="border rounded p-2 d-flex align-items-center" [ngClass]="possuiItem(pedidoAtual.adicionais, a.id) ? 'border-primary bg-primary bg-opacity-10' : 'bg-light border-light-subtle'">
+                    <div class="form-check form-switch mb-0 w-100 fs-6">
+                      <input class="form-check-input" type="checkbox" role="switch" [id]="'add_'+a.id" [checked]="possuiItem(pedidoAtual.adicionais, a.id)" (change)="toggleItem(pedidoAtual.adicionais, a, $event)">
+                      <label class="form-check-label d-block text-muted ms-1" [for]="'add_'+a.id" style="cursor: pointer;">
+                        {{ a.descricao }} <br>
+                        <span class="text-success fw-semibold small">R$ {{ a.precoUnitario | number:'1.2-2' }}</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="adicionaisDisponiveis.length === 0" class="text-muted small">Nenhum adicional cadastrado.</div>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+              <button type="button" class="btn btn-light px-4 border" (click)="pedidoAtual = novoPedido()">
+                <i class="bi bi-eraser"></i> Limpar
+              </button>
+              <button type="submit" class="btn btn-primary px-4" [disabled]="!pedidoAtual.nomeCliente || !pedidoAtual.enderecoCliente || !pedidoAtual.telefoneCliente">
+                <i class="bi bi-check2-circle"></i> Finalizar Pedido
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="d-flex justify-content-between align-items-center mb-4 mt-4">
+    <h4 class="fw-bold text-secondary m-0"><i class="bi bi-clock-history me-2"></i>Histórico de Pedidos</h4>
+  </div>
+
+  <div class="table-responsive mb-5">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+      <tr>
+        <th class="ps-4">ID</th>
+        <th>Cliente</th>
+        <th>Itens do Pedido</th>
+        <th>Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of pedidos">
+        <td class="ps-4 text-muted fw-semibold">#{{ p.id }}</td>
+        <td>
+          <div class="fw-medium">{{ p.nomeCliente }}</div>
+          <div class="text-muted small"><i class="bi bi-telephone me-1"></i>{{ p.telefoneCliente }}</div>
+          <div class="text-muted small mt-1"><i class="bi bi-geo-alt me-1"></i>{{ p.enderecoCliente }}</div>
+        </td>
+        <td>
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge text-bg-light border text-muted fw-normal" *ngFor="let h of p.hamburgueres"><i class="bi bi-shop me-1"></i>{{ h.descricao }}</span>
+            <span class="badge text-bg-light border text-muted fw-normal" *ngFor="let b of p.bebidas"><i class="bi bi-cup-straw me-1"></i>{{ b.descricao }}</span>
+            <span class="badge text-bg-light border text-muted fw-normal" *ngFor="let a of p.adicionais"><i class="bi bi-plus-circle me-1"></i>{{ a.descricao }}</span>
+          </div>
+          <div *ngIf="p.observacoes" class="text-muted small mt-2 fst-italic">
+            Obs: {{ p.observacoes }}
+          </div>
+        </td>
+        <td class="text-success fw-semibold fs-6">R$ {{ p.valorTotal | number:'1.2-2' }}</td>
+      </tr>
+      <tr *ngIf="pedidos.length === 0">
+        <td colspan="4" class="text-center py-5 text-muted">Nenhum pedido realizado até o momento.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

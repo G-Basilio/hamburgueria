@@ -13,7 +13,7 @@ export class IngredienteService {
 
   listar(descricao?: string): Observable<Ingrediente[]> {
     let params = new HttpParams();
-    if (descricao) {
+    if (descricao && descricao.trim() !== '') {
       params = params.set('descricao', descricao);
     }
     return this.http.get<Ingrediente[]>(this.apiUrl, { params });

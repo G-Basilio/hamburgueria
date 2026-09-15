@@ -14,7 +14,7 @@ export class BebidaService {
 
   listar(descricao?: string): Observable<Bebida[]> {
     let params = new HttpParams();
-    if (descricao) {
+    if (descricao && descricao.trim() !== '') {
       params = params.set('descricao', descricao);
     }
     return this.http.get<Bebida[]>(this.apiUrl, { params });
