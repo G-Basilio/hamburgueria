@@ -61,7 +61,7 @@
       </tr>
       </thead>
       <tbody>
-      <<tr *ngFor="let i of ingredientesFiltrados">
+      <tr *ngFor="let i of ingredientesFiltrados">
         <td class="ps-4 text-muted fw-semibold">#{{ i.id }}</td>
         <td class="fw-medium">{{ i.descricao }}</td>
         <td class="text-success fw-semibold">R$ {{ i.precoUnitario | number:'1.2-2' }}</td>
